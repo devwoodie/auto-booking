@@ -74,8 +74,11 @@ driver.implicitly_wait(5)
 driver.find_element(By.XPATH, "/html/body/div[2]/div[2]/div[2]/section/div/article/div[1]/div/div[6]/div[2]/button").click()
 driver.implicitly_wait(5)
 
-# # 대표자 입력
-# driver.find_element(By.ID, "team_nm").send_keys("도미니언")
+# 다음 페이지 URL 가져오기
+next_page_url = driver.current_url
+
+# 대표자 입력
+driver.find_element(By.ID, "team_nm").send_keys("도미니언")
 # # 참가 인원 입력
 # driver.find_element(By.ID, "users").send_keys("4")
 # # 이용 목적 입력
