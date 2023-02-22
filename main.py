@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
+from time import sleep
 
 now = datetime.now()
 nextWeek = now + timedelta(weeks=1)
@@ -72,19 +73,16 @@ driver.implicitly_wait(5)
 
 # 대관 신청 버튼 클릭
 driver.find_element(By.XPATH, "/html/body/div[2]/div[2]/div[2]/section/div/article/div[1]/div/div[6]/div[2]/button").click()
-driver.implicitly_wait(5)
-
-# 다음 페이지 URL 가져오기
-next_page_url = driver.current_url
+sleep(5)
 
 # 대표자 입력
 driver.find_element(By.ID, "team_nm").send_keys("도미니언")
-# # 참가 인원 입력
-# driver.find_element(By.ID, "users").send_keys("4")
-# # 이용 목적 입력
-# driver.find_element(By.ID, "purpose").send_keys("개인이용")
-# # 동의 클릭
-# driver.find_element(By.ID, "agree_use1").click()
+# 참가 인원 입력
+driver.find_element(By.ID, "users").send_keys("4")
+# 이용 목적 입력
+driver.find_element(By.ID, "purpose").send_keys("개인이용")
+# 동의 클릭
+driver.find_element(By.ID, "agree_use1").click()
 #
 # # reCAPCHA 클릭 - iframe으로 이동
 # iframe = driver.find_element(By.CSS_SELECTOR, 'iframe[src^="https://www.google.com/recaptcha/api2/"]')
