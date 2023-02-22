@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from datetime import datetime
+from datetime import datetime, timedelta
+
+now = datetime.now()
+nextWeek = now + timedelta(weeks=1)
+print(nextWeek.strftime("%Y%m%d"))
 
 driver = webdriver.Chrome("chromedriver")
 driver.get("https://www.gunpouc.or.kr/fmcs/160")  # 로그인 화면
@@ -19,14 +23,14 @@ driver.implicitly_wait(5)
 driver.find_element(By.XPATH,"/html/body/div[2]/div[2]/div[2]/section/div/article/div[1]/div/div[1]/form/fieldset/div/div/ul/li[1]/div/select/option[2]").click()
 driver.implicitly_wait(5)
 
-driver.find_element(By.XPATH,"/html/body/div[2]/div[2]/div[2]/section/div/article/div[1]/div/div[1]/form/fieldset/div/div/ul/li[2]/div/select/option[5]").click()
-driver.implicitly_wait(5)
+# driver.find_element(By.XPATH,"/html/body/div[2]/div[2]/div[2]/section/div/article/div[1]/div/div[1]/form/fieldset/div/div/ul/li[2]/div/select/option[5]").click()
+# driver.implicitly_wait(5)
+#
+# driver.find_element(By.XPATH,"/html/body/div[2]/div[2]/div[2]/section/div/article/div[1]/div/div[1]/form/fieldset/div/div/ul/li[3]/div/select/option[1]").click()
+# driver.implicitly_wait(5)
 
-driver.find_element(By.XPATH,"/html/body/div[2]/div[2]/div[2]/section/div/article/div[1]/div/div[1]/form/fieldset/div/div/ul/li[3]/div/select/option[1]").click()
-driver.implicitly_wait(5)
+# driver.find_element(By.XPATH,"/html/body/div[2]/div[2]/div[2]/section/div/article/div[1]/div/div[1]/form/fieldset/div/div/div/button").click()
+# driver.implicitly_wait(5)
 
-driver.find_element(By.XPATH,"/html/body/div[2]/div[2]/div[2]/section/div/article/div[1]/div/div[1]/form/fieldset/div/div/div/button").click()
-driver.implicitly_wait(5)
 
-nowDate = datetime.today()
-print(nowDate)
+
