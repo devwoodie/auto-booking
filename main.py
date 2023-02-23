@@ -65,8 +65,8 @@ else:
 driver.implicitly_wait(5)
 
 # 시간 선택
-driver.find_element(By.ID, "checkbox_time_0").click()
-driver.find_element(By.ID, "checkbox_time_1").click()
+driver.find_element(By.ID, "checkbox_time_4").click()
+driver.find_element(By.ID, "checkbox_time_5").click()
 driver.implicitly_wait(5)
 
 # reCAPCHA 클릭 - iframe으로 이동
@@ -86,12 +86,11 @@ driver.implicitly_wait(5)
 
 # BeautifulSoup을 사용하여 HTML 파싱
 soup = BeautifulSoup(html, 'html.parser')
-sleep(3)
+sleep(2)
 
 # 대관 신청 버튼 클릭
 driver.find_element(By.XPATH, "/html/body/div[2]/div[2]/div[2]/section/div/article/div[1]/div/div[6]/div[2]/button").click()
-sleep(5)
-
+sleep(1)
 
 # ------- 다음 페이지 ---------
 
@@ -103,30 +102,26 @@ driver.find_element(By.ID, "users").send_keys("4")
 driver.find_element(By.ID, "purpose").send_keys("개인이용")
 # 동의 클릭
 driver.find_element(By.ID, "agree_use1").click()
-sleep(5)
+sleep(1)
 
+# reCAPCHA 클릭 - iframe으로 이동
+iframe = driver.find_element(By.CSS_SELECTOR, 'iframe[src^="https://www.google.com/recaptcha/api2/"]')
+driver.switch_to.frame(iframe)
 
+# reCAPTCHA 체크박스 클릭
+driver.find_element(By.CSS_SELECTOR, '.recaptcha-checkbox-border').click()
+driver.implicitly_wait(5)
 
+# 원래 iframe으로 이동
+driver.switch_to.default_content()
 
-#
-# # reCAPCHA 클릭 - iframe으로 이동
-# iframe = driver.find_element(By.CSS_SELECTOR, 'iframe[src^="https://www.google.com/recaptcha/api2/"]')
-# driver.switch_to.frame(iframe)
-#
-# # reCAPTCHA 체크박스 클릭
-# driver.find_element(By.CSS_SELECTOR, '.recaptcha-checkbox-border').click()
-# driver.implicitly_wait(5)
-#
-# # 원래 iframe으로 이동
-# driver.switch_to.default_content()
-#
-# # 페이지 HTML 소스 가져오기
-# html = driver.page_source
-# driver.implicitly_wait(5)
-#
-# # BeautifulSoup을 사용하여 HTML 파싱
-# soup = BeautifulSoup(html, 'html.parser')
-# driver.implicitly_wait(5)
-#
-# # 신청 완료
-# driver.find_element(By.ID, "chkrecapt_btn").click()
+# 페이지 HTML 소스 가져오기
+html = driver.page_source
+driver.implicitly_wait(5)
+
+# BeautifulSoup을 사용하여 HTML 파싱
+soup = BeautifulSoup(html, 'html.parser')
+sleep(2)
+
+# 신청 완료
+driver.find_element(By.ID, "chkrecapt_btn").click()
