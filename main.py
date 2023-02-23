@@ -1,17 +1,27 @@
 # -*- coding: utf-8 -*-
+import time
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 from time import sleep
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+userPW = os.environ.get('PASSWORD')
 
 now = datetime.now()
 nextWeek = now + timedelta(weeks=1)
+print('이번달 :', now.month)
+print('다음달 :', nextWeek.month)
 clickDate = nextWeek.strftime("%Y%m%d")
-print("date-"+clickDate)
+print("선택 날짜 : date-"+clickDate)
 center = "시민체육광장"
 part = "테니스장"
 place = "3코트"
+subScriptURL = "https://www.gunpouc.or.kr/fmcs/157"
 
 driver = webdriver.Chrome("chromedriver")
 driver.get("https://www.gunpouc.or.kr/fmcs/160")  # 로그인 화면
@@ -19,12 +29,12 @@ driver.implicitly_wait(15)  # 페이지 다 뜰 때 까지 기다림
 
 # 로그인
 driver.find_element(By.ID, "user_id").send_keys("ehddn453")
-driver.find_element(By.ID, "user_password").send_keys("!b12464530045")
+driver.find_element(By.ID, "user_password").send_keys(userPW)
 driver.find_element(By.XPATH, "/html/body/div[2]/div[2]/div[2]/section/div/article/div/div/div/div[1]/form/fieldset/div/p[3]/button").click()
 driver.implicitly_wait(5)
 
 # 대관 신청
-driver.get("https://www.gunpouc.or.kr/fmcs/157")
+driver.get(subScriptURL)
 driver.implicitly_wait(5)
 
 # 센터 선택
@@ -43,13 +53,19 @@ driver.implicitly_wait(5)
 driver.find_element(By.XPATH, "/html/body/div[2]/div[2]/div[2]/section/div/article/div[1]/div/div[1]/form/fieldset/div/div/div/button").click()
 driver.implicitly_wait(5)
 
+
 # 다음주 날짜 선택
-driver.find_element(By.ID, "date-20230227").click()
+if now.month == nextWeek.month:
+    driver.find_element(By.ID, "date-" + clickDate).click()
+else:
+    driver.find_element(By.ID, "next_month").click()
+    sleep(1)
+    driver.find_element(By.ID, "date-" + clickDate).click()
 driver.implicitly_wait(5)
 
 # 시간 선택
-driver.find_element(By.ID, "checkbox_time_4").click()
-driver.find_element(By.ID, "checkbox_time_5").click()
+driver.find_element(By.ID, "checkbox_time_2").click()
+driver.find_element(By.ID, "checkbox_time_3").click()
 driver.implicitly_wait(5)
 
 # reCAPCHA 클릭 - iframe으로 이동
@@ -75,6 +91,9 @@ driver.implicitly_wait(5)
 driver.find_element(By.XPATH, "/html/body/div[2]/div[2]/div[2]/section/div/article/div[1]/div/div[6]/div[2]/button").click()
 sleep(5)
 
+
+# ------- 다음 페이지 ---------
+
 # 대표자 입력
 driver.find_element(By.ID, "team_nm").send_keys("도미니언")
 # 참가 인원 입력
@@ -83,6 +102,10 @@ driver.find_element(By.ID, "users").send_keys("4")
 driver.find_element(By.ID, "purpose").send_keys("개인이용")
 # 동의 클릭
 driver.find_element(By.ID, "agree_use1").click()
+
+
+
+
 #
 # # reCAPCHA 클릭 - iframe으로 이동
 # iframe = driver.find_element(By.CSS_SELECTOR, 'iframe[src^="https://www.google.com/recaptcha/api2/"]')
